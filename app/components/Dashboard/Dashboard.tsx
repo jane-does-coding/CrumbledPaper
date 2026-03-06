@@ -1,0 +1,103 @@
+"use client";
+import { useState, useMemo } from "react";
+
+const Dashboard = () => {
+	const [search, setSearch] = useState("");
+	const [sortOrder, setSortOrder] = useState("desc");
+
+	const interviews = [
+		{
+			id: 1,
+			name: "Bob Smith",
+			questions: 8,
+			date: "2026-08-26",
+			status: "Pending",
+		},
+		{
+			id: 2,
+			name: "Alice Johnson",
+			questions: 6,
+			date: "2026-07-14",
+			status: "Completed",
+		},
+		{
+			id: 3,
+			name: "Mark Lee",
+			questions: 10,
+			date: "2026-09-01",
+			status: "Pending",
+		},
+	];
+
+	const filteredAndSorted = useMemo(() => {
+		let filtered = interviews.filter((interview) =>
+			interview.name.toLowerCase().includes(search.toLowerCase())
+		);
+
+		filtered.sort((a, b) => {
+			const dateA = new Date(a.date).getTime();
+			const dateB = new Date(b.date).getTime();
+
+			return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+		});
+
+		return filtered;
+	}, [search, sortOrder]);
+
+	return (
+		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
+			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-[2vh] px-[2vw] drop-shadow-md">
+				<h1 className="text-[5.5vh] leading-[5.5vh] text-center">Interviews</h1>
+			</div>
+
+			{/* Filters */}
+			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-0 px-[1vw] flex items-center justify-between gap-[2vw] drop-shadow-md">
+				<input
+					type="text"
+					placeholder="Search by name..."
+					value={search}
+					onChange={(e) => setSearch(e.target.value)}
+					className="w-full border-r-2 border-dotted border-black px-[1vw] py-[1.5vh] text-[3vh] outline-none"
+				/>
+
+				<select
+					value={sortOrder}
+					onChange={(e) => setSortOrder(e.target.value)}
+					className="border-none border-black px-[1vw] py-[0.5vh] text-[2.5vh] outline-none mr-[2vw]"
+				>
+					<option value="desc">Date: Newest → Oldest</option>
+					<option value="asc">Date: Oldest → Newest</option>
+				</select>
+			</div>
+
+			{/* Interview List */}
+			<div className="w-[95%] mx-auto bg-white border-2 border-dotted drop-shadow-md">
+				{filteredAndSorted.map((item, i) => (
+					<a
+						href="/interview-admin"
+						key={item.id}
+						className={`w-full flex py-[1.25vh] px-[2vw] items-center justify-between border-dotted border-black ${
+							i === filteredAndSorted.length - 1
+								? "border-b-none"
+								: "border-b-2"
+						}`}
+					>
+						<h2 className="text-[3.5vh]">{item.name}</h2>
+						<div className="flex gap-[3vw]">
+							<p className="text-[2.5vh]">{item.questions} Questions</p>
+							<p className="text-[2.5vh]">
+								{new Date(item.date).toLocaleDateString()}
+							</p>
+							<div className="flex items-center justify-center gap-[0.5vw]">
+								<div className="w-[1.75vw] h-[1.75vw] border-2 border-dotted border-black rounded-full"></div>
+								<p className="text-[2.5vh]">{item.status}</p>
+							</div>
+						</div>
+					</a>
+				))}
+			</div>
+		</div>
+	);
+};
+
+export default Dashboard;
