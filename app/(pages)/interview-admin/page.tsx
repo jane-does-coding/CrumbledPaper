@@ -1,7 +1,10 @@
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import InterviewAdmin from "@/app/components/InterviewAdmin/InterviewAdmin";
 import Sidebar from "@/app/components/Sidebar";
 
-const InterviewAdminPage = () => {
+const InterviewAdminPage = async () => {
+	const currentUser = await getCurrentUser();
+
 	return (
 		<div className="flex bg-neutral-100">
 			<img
@@ -10,7 +13,7 @@ const InterviewAdminPage = () => {
 				alt=""
 			/>
 			<div className="min-w-fit">
-				<Sidebar />
+				<Sidebar currentUser={currentUser} />
 			</div>
 			<div className="z-5 w-full pt-[2vh] max-h-screen overflow-y-scroll pb-[5vh]">
 				<InterviewAdmin />

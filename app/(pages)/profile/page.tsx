@@ -1,7 +1,10 @@
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import Profile from "@/app/components/Profile/Profile";
 import Sidebar from "@/app/components/Sidebar";
 
-const ProfilePage = () => {
+const ProfilePage = async () => {
+	const currentUser = await getCurrentUser();
+
 	return (
 		<div className="flex bg-neutral-100">
 			<img
@@ -10,7 +13,7 @@ const ProfilePage = () => {
 				alt=""
 			/>
 			<div className="min-w-fit">
-				<Sidebar />
+				<Sidebar currentUser={currentUser} />
 			</div>
 			<div className="z-5 w-full pt-[2vh] max-h-screen overflow-y-scroll pb-[5vh]">
 				<Profile />

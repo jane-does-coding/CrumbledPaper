@@ -14,8 +14,14 @@ import {
 	LuPin,
 	LuUser,
 } from "react-icons/lu";
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
 
-const Sidebar = () => {
+interface NavbarProps {
+	currentUser?: User | null;
+}
+
+const Sidebar = ({ currentUser }: NavbarProps) => {
 	const [pinned, setPinned] = useState(true);
 	const [notificationsCount, setNotificationsCount] = useState<number>(0);
 	const pathname = usePathname();
@@ -162,21 +168,21 @@ const Sidebar = () => {
 				</Link>
 			</div>
 
-			{/* <button
-				onClick={() => signOut()}
-				className={`w-[4vw] flex items-center justify-center relative aspect-[1] rounded-none border-dotted ${
-					isActive("/logout") ? activeIconClasses : inactiveIconClasses
-				}`}
-			>
-				<LuLogOut
-					className={`text-[3vh] ${
-						isActive("/logout") ? "text-white" : ""
+			{currentUser && (
+				<button
+					onClick={() => signOut()}
+					className={`w-[4vw] flex items-center justify-center relative aspect-[1] rounded-none border-dotted ${
+						isActive("/logout") ? activeIconClasses : inactiveIconClasses
 					}`}
-				/>
-				<div className="absolute w-[15vw] text-[2.25vh] right-[-16.5vw] flex items-center justify-start top-[50%] font-medium hover:pl-[0.25vw] hover:font-medium ease-in-out py-[1vh] transition-all translate-y-[-50%]">
-					Logout
-				</div>
-			</button> */}
+				>
+					<LuLogOut
+						className={`text-[3vh] ${isActive("/logout") ? "text-white" : ""}`}
+					/>
+					<div className="absolute w-[15vw] text-[2.25vh] right-[-16.5vw] flex items-center justify-start top-[50%] font-medium hover:pl-[0.25vw] hover:font-medium ease-in-out py-[1vh] transition-all translate-y-[-50%]">
+						Logout
+					</div>
+				</button>
+			)}
 		</div>
 	);
 };
