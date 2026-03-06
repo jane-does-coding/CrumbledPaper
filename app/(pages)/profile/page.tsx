@@ -16,7 +16,7 @@ const ProfilePage = async () => {
 				<Sidebar currentUser={currentUser} />
 			</div>
 			<div className="z-5 w-full pt-[2vh] max-h-screen overflow-y-scroll pb-[5vh]">
-				<Profile />
+				<Profile currentUser={currentUser} />
 			</div>
 		</div>
 	);

@@ -1,6 +1,15 @@
 "use client";
+import { User } from "@prisma/client";
 
-const Profile = () => {
+interface NavbarProps {
+	currentUser?: User | null;
+}
+
+const Profile = ({ currentUser }: NavbarProps) => {
+	console.log(currentUser);
+
+	if (!currentUser) return;
+
 	return (
 		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
 			{/* Header */}
@@ -18,9 +27,9 @@ const Profile = () => {
 					</div>
 
 					<div className="w-2/3 py-[3vh] px-[3vw] flex flex-col justify-center gap-[1vh]">
-						<h2 className="text-[4vh] leading-[4vh]">Jane Smith</h2>
-						<p className="text-[2.5vh]">theusernamehere</p>
-						<p className="text-[2.5vh]">jane.smith@company.com</p>
+						<h2 className="text-[4vh] leading-[4vh]">{currentUser.name}</h2>
+						<p className="text-[2.5vh]">{currentUser.username}</p>
+						<p className="text-[2.5vh]">{currentUser.email}</p>
 					</div>
 				</div>
 
