@@ -138,7 +138,7 @@ const SendInterviewForm = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, scale: 0.9 }}
 				transition={{ duration: 0.25, ease: "easeOut" }}
-				className="mb-[2vh] relative bg-slate-50 gap-[1vw] border-slate-300/50 border-[1px] py-[1.25vh] px-[1vw] rounded-[1.5vh] flex"
+				className="my-[1vh] relative bg-green-500/0 gap-[1vw] py-[1.25vh] flex w-[95%] mx-auto"
 			>
 				<div className="w-full">
 					<div
@@ -147,7 +147,7 @@ const SendInterviewForm = () => {
 						onBlur={(e) =>
 							handleLabelChange(field.id, e.currentTarget.textContent || "")
 						}
-						className="block text-[2vh] mb-[0.5vh] cursor-text capitalize focus:outline-none focus:ring-none focus:border-none"
+						className="block text-[2.5vh] mb-[0.5vh] cursor-text capitalize focus:outline-none focus:ring-none focus:border-none"
 					>
 						{field.label}
 					</div>
@@ -160,7 +160,7 @@ const SendInterviewForm = () => {
 							onChange={(e) =>
 								handlePlaceholderChange(field.id, e.target.value)
 							}
-							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+							className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 						/>
 					)}
 					{field.type === "number" && (
@@ -171,7 +171,7 @@ const SendInterviewForm = () => {
 							onChange={(e) =>
 								handlePlaceholderChange(field.id, e.target.value)
 							}
-							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+							className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 						/>
 					)}
 					{field.type === "textarea" && (
@@ -181,7 +181,7 @@ const SendInterviewForm = () => {
 								handlePlaceholderChange(field.id, e.target.value)
 							}
 							placeholder="Field Placeholder"
-							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+							className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 						/>
 					)}
 					{field.type === "checkbox" && (
@@ -205,7 +205,7 @@ const SendInterviewForm = () => {
 								onChange={(e) =>
 									handlePlaceholderChange(field.id, e.target.value)
 								}
-								className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+								className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 							>
 								{field.options?.map((opt, i) => (
 									<option key={i} value={opt}>
@@ -220,7 +220,7 @@ const SendInterviewForm = () => {
 									onChange={(e) =>
 										handleOptionChange(field.id, i, e.target.value)
 									}
-									className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+									className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 								/>
 							))}
 							<button
@@ -249,7 +249,7 @@ const SendInterviewForm = () => {
 									onChange={(e) =>
 										handleOptionChange(field.id, i, e.target.value)
 									}
-									className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+									className="border-black border-2 border-dotted text-[2.5vh] px-[1vw] py-[1vh] w-full focus:outline-none"
 								/>
 							))}
 							<button
@@ -268,7 +268,7 @@ const SendInterviewForm = () => {
 					whileHover={{ scale: 1.1 }}
 					type="button"
 					onClick={() => handleDeleteField(field.id)}
-					className="flex items-center justify-center bg-slate-100 border-[1px] border-slate-300 px-[1vw] rounded-[1vh] text-red-500 hover:text-red-700 text-[2vh]"
+					className="flex items-center justify-center border-2 border-black border-dotted px-[1vw] cursor-pointer text-red-500 hover:text-red-700 text-[2vh]"
 				>
 					<LuTrash2 className="text-[2.5vh]" />
 				</motion.button>
@@ -277,86 +277,138 @@ const SendInterviewForm = () => {
 	};
 
 	return (
-		<div className="w-full py-[3vh] px-[2vw] ">
-			<form
-				onSubmit={handleSubmit}
-				className="bg-green-100/0 py-[1vh] border-r-[1px] border-slate-300 pr-[1.5vw] pb-[3vh] w-full"
-			>
-				<h2 className="text-[3vh] font-light mb-[2vh] pt-[2vh] text-start">
+		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
+			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-[2vh] px-[2vw] drop-shadow-md">
+				<h1 className="text-[5.5vh] leading-[5.5vh] text-center">
 					Interview Form
-				</h2>
-				{/* Receiver info and comments */}
-				<div className="mb-[2vh]">
-					<label className="block text-[2vh] mb-[0.5vh]">Receiver Name</label>
-					<input
-						type="text"
-						value={receiverName}
-						onChange={(e) => setReceiverName(e.target.value)}
-						placeholder="Receiver Name"
-						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none mb-[2vh]"
-					/>
-				</div>
-				<div className="mb-[2vh]">
-					<label className="block text-[2vh] mb-[0.5vh]">Receiver Email</label>
-					<input
-						type="text"
-						value={receiverEmail}
-						onChange={(e) => setReceiverEmail(e.target.value)}
-						placeholder="Receiver Email"
-						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none mb-[2vh]"
-					/>
-				</div>
-				<div className="mb-[2vh]">
-					<label className="block text-[2vh] mb-[0.5vh]">
-						Additional Comments
-					</label>
-					<textarea
-						value={comments}
-						onChange={(e) => setComments(e.target.value)}
-						placeholder="Additional Comments (Optional)"
-						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
-					/>
-				</div>
+				</h1>
+			</div>
 
-				{/* Animated dynamic fields */}
-				<AnimatePresence>
-					{fields.map((field) => renderField(field))}
-				</AnimatePresence>
+			<div className="flex gap-[2vh] w-[95%]">
+				<div className="w-full mx-auto bg-white border-2 border-dotted py-[3vh] px-0 drop-shadow-md">
+					<form onSubmit={handleSubmit} className="w-full">
+						{/* MY ADDITION */}
+						<h1 className="text-[3.5vh] leading-[3.5vh] text-center mb-[3vh]">
+							Interview
+						</h1>
 
-				<h2 className="text-[2.5vh] font-light mb-[2vh] mt-[3vh] pt-[3vh] border-t-[1px] border-slate-300 text-start flex items-center justify-center gap-[1vw]">
-					Add Input <LuPlus className="text-[2.5vh] inline" />
-				</h2>
-				<div className="grid grid-cols-3 gap-x-[0.5vw] gap-y-[1vh] pr-[0vw]">
-					{[
-						{ type: "text", label: "Text", icon: <LuPenLine /> },
-						{ type: "number", label: "Number", icon: <LuBinary /> },
-						{ type: "select", label: "Select", icon: <LuSquareMousePointer /> },
-						{ type: "textarea", label: "Textarea", icon: <LuLetterText /> },
-						{ type: "checkbox", label: "Checkbox", icon: <LuSquareCheck /> },
-						{ type: "radio", label: "Radio", icon: <LuSquareMousePointer /> },
-					].map((btn) => (
-						<motion.button
-							key={btn.type}
-							whileTap={{ scale: 0.95 }}
-							whileHover={{ scale: 1.0 }}
-							type="button"
-							onClick={() => handleAddField(btn.type as FieldType)}
-							className="bg-slate-100 border-slate-300 border-[1px] py-[1vh] px-[1vw] flex items-center justify-center rounded-[1.75vh] cursor-pointer"
+						{/* Default Questions */}
+						<div className="flex flex-col">
+							{/* <input
+								type="text"
+								placeholder="Reciever Name"
+								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/> */}
+							<input
+								type="text"
+								value={receiverName}
+								onChange={(e) => setReceiverName(e.target.value)}
+								placeholder="Receiver Name"
+								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/>
+							{/* <input
+								type="text"
+								placeholder="Reciever Email"
+								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/> */}
+							<input
+								type="text"
+								value={receiverEmail}
+								onChange={(e) => setReceiverEmail(e.target.value)}
+								placeholder="Receiver Email"
+								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/>
+							{/* <input
+								type="text"
+								placeholder="Additional Comments"
+								className="w-full border-y-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/> */}
+							<textarea
+								value={comments}
+								onChange={(e) => setComments(e.target.value)}
+								placeholder="Additional Comments (Optional)"
+								className="w-full border-y-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none h-[6.5vh]"
+							/>
+						</div>
+						{/* ALL ELSE */}
+						<h1 className="text-[3.5vh] leading-[3.5vh] text-center mb-[3vh] mt-[4vh]">
+							Input Fields
+						</h1>
+
+						{/* Animated dynamic fields */}
+						<AnimatePresence>
+							{fields.map((field) => renderField(field))}
+						</AnimatePresence>
+
+						<h2 className="text-[2.5vh] font-light mb-[2vh] mt-[3vh] pt-[3vh] border-t-2 border-dotted border-black text-start flex items-center justify-center gap-[1vw]">
+							Add Input <LuPlus className="text-[2.5vh] inline" />
+						</h2>
+						<div className="grid grid-cols-3 gap-x-[0.5vw] gap-y-[1vh] px-[1vw]">
+							{[
+								{ type: "text", label: "Text", icon: <LuPenLine /> },
+								{ type: "number", label: "Number", icon: <LuBinary /> },
+								{
+									type: "select",
+									label: "Select",
+									icon: <LuSquareMousePointer />,
+								},
+								{ type: "textarea", label: "Textarea", icon: <LuLetterText /> },
+								{
+									type: "checkbox",
+									label: "Checkbox",
+									icon: <LuSquareCheck />,
+								},
+								{
+									type: "radio",
+									label: "Radio",
+									icon: <LuSquareMousePointer />,
+								},
+							].map((btn) => (
+								<motion.button
+									key={btn.type}
+									whileTap={{ scale: 0.95 }}
+									whileHover={{ scale: 1.0 }}
+									type="button"
+									onClick={() => handleAddField(btn.type as FieldType)}
+									className="bg-neutral-200 text-black border-black border-2 border-dotted text-[3vh] cursor-pointer"
+								>
+									{btn.label}
+								</motion.button>
+							))}
+						</div>
+
+						<button
+							type="submit"
+							className="hover:bg-white bg-neutral-900 transition-all ease-in-out duration-300 hover:text-black text-white border-2 border-dotted hover:border-black border-neutral-300 w-[95%] mx-[2.5%] cursor-pointer mt-[3vh] text-[2.75vh] font-extralight py-[1.25vh]"
 						>
-							<h2 className="text-[2vh] flex items-center justify-center gap-[0.75vw]">
-								{btn.label} <span className="text-[2.5vh]">{btn.icon}</span>
-							</h2>
-						</motion.button>
-					))}
+							Complete
+						</button>
+					</form>
 				</div>
+				<div className="w-full mx-auto bg-white border-2 border-dotted py-[3vh] px-[2vw] drop-shadow-md">
+					<h1 className="text-[3.5vh] leading-[3.5vh] text-center mb-[2vh]">
+						Preview
+					</h1>
+					<p className="text-[3vh]">
+						Dear, {"[RECIEVER NAME]"}, thank you so much for your time at our
+						company, so please fill out this form on your experience and
+						feedback.
+					</p>
 
-				<button
-					type="submit"
-					className="bg-orange-100 text-orange-600 border-[1px] border-orange-500 w-full cursor-pointer mt-[3vh] text-[2vh] font-semibold rounded-[2vh] py-[1.25vh]"
-				>
-					Complete
-				</button>
-			</form>
+					<div className="flex flex-col mt-[3vh]">
+						<div className="flex flex-col">
+							<h3 className="text-[3vh] mb-[1vh]">
+								What could be done better?
+							</h3>
+							<input
+								type="text"
+								placeholder="Additional Comments"
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
