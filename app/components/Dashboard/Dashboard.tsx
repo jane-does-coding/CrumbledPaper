@@ -1,11 +1,25 @@
 "use client";
 import { useState, useMemo } from "react";
+import { Interview } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
-const Dashboard = () => {
+type InterviewWithFields = Prisma.InterviewGetPayload<{
+	include: { fields: true };
+}>;
+
+interface DashboardProps {
+	interviews?: InterviewWithFields[] | null;
+}
+
+const Dashboard = ({ interviews }: DashboardProps) => {
 	const [search, setSearch] = useState("");
 	const [sortOrder, setSortOrder] = useState("desc");
 
-	const interviews = [
+	if (!interviews) {
+		return <div></div>;
+	}
+
+	const interviewsDummy = [
 		{
 			id: 1,
 			name: "Bob Smith",
@@ -31,12 +45,12 @@ const Dashboard = () => {
 
 	const filteredAndSorted = useMemo(() => {
 		let filtered = interviews.filter((interview) =>
-			interview.name.toLowerCase().includes(search.toLowerCase())
+			interview.receiverName.toLowerCase().includes(search.toLowerCase())
 		);
 
 		filtered.sort((a, b) => {
-			const dateA = new Date(a.date).getTime();
-			const dateB = new Date(b.date).getTime();
+			const dateA = new Date(a.createdAt).getTime();
+			const dateB = new Date(b.createdAt).getTime();
 
 			return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
 		});
@@ -82,15 +96,17 @@ const Dashboard = () => {
 								: "border-b-2"
 						}`}
 					>
-						<h2 className="text-[3.5vh]">{item.name}</h2>
+						<h2 className="text-[3.5vh]">{item.receiverName}</h2>
 						<div className="flex gap-[3vw]">
-							<p className="text-[2.5vh]">{item.questions} Questions</p>
+							<p className="text-[2.5vh]">{item.fields.length} Questions</p>
 							<p className="text-[2.5vh]">
-								{new Date(item.date).toLocaleDateString()}
+								{new Date(item.createdAt).toLocaleDateString()}
 							</p>
 							<div className="flex items-center justify-center gap-[0.5vw]">
 								<div className="w-[1.75vw] h-[1.75vw] border-2 border-dotted border-black rounded-full"></div>
-								<p className="text-[2.5vh]">{item.status}</p>
+								<p className="text-[2.5vh]">
+									{item.isCompleted ? "Completed" : "Pending"}
+								</p>
 							</div>
 						</div>
 					</a>
