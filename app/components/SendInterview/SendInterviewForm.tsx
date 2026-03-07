@@ -6,7 +6,6 @@ import {
 	LuLetterText,
 	LuPenLine,
 	LuPlus,
-	LuSlidersHorizontal,
 	LuSquareCheck,
 	LuSquareMousePointer,
 	LuTrash2,
@@ -280,7 +279,7 @@ const SendInterviewForm = () => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -10 }}
 				transition={{ duration: 0.25 }}
-				className="flex flex-col mt-[0vh]"
+				className="flex flex-col mt-[2vh]"
 			>
 				<h3 className="text-[3vh] mb-[1vh]">{field.label}</h3>
 
@@ -458,7 +457,7 @@ const SendInterviewForm = () => {
 					<p className="text-[3vh] mt-[2vh]">{comments ? comments : ""}</p>
 
 					<AnimatePresence>
-						<motion.div layout className="flex flex-col mt-[3vh]">
+						<motion.div layout className="flex flex-col">
 							{fields.map((field) => renderPreviewField(field))}
 						</motion.div>
 					</AnimatePresence>
