@@ -1,9 +1,13 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import getInterviews from "@/app/actions/getInterviews";
 import Dashboard from "@/app/components/Dashboard/Dashboard";
 import Sidebar from "@/app/components/Sidebar";
 
 const DashboardPage = async () => {
 	const currentUser = await getCurrentUser();
+	const interviews = await getInterviews();
+
+	console.log(interviews);
 
 	return (
 		<div className="flex bg-neutral-100">

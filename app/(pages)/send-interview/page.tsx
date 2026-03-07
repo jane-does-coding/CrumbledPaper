@@ -1,5 +1,6 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import SendInterview from "@/app/components/SendInterview/SendInterview";
+import SendInterviewForm from "@/app/components/SendInterview/SendInterviewForm";
 import Sidebar from "@/app/components/Sidebar";
 
 const SendInterviewPage = async () => {
@@ -16,7 +17,8 @@ const SendInterviewPage = async () => {
 				<Sidebar currentUser={currentUser} />
 			</div>
 			<div className="z-5 w-full pt-[2vh] max-h-screen overflow-y-scroll pb-[5vh]">
-				<SendInterview />
+				{/* <SendInterview /> */}
+				<SendInterviewForm />
 			</div>
 		</div>
 	);

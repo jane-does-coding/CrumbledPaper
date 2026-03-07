@@ -1,0 +1,364 @@
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+	LuBinary,
+	LuLetterText,
+	LuPenLine,
+	LuPlus,
+	LuSlidersHorizontal,
+	LuSquareCheck,
+	LuSquareMousePointer,
+	LuTrash2,
+} from "react-icons/lu";
+
+type FieldType =
+	| "text"
+	| "number"
+	| "select"
+	| "textarea"
+	| "checkbox"
+	| "radio";
+
+interface Field {
+	id: number;
+	type: FieldType;
+	label: string;
+	placeholder: string;
+	options?: string[];
+}
+
+const SendInterviewForm = () => {
+	const [fields, setFields] = useState<Field[]>([]);
+	const [receiverName, setReceiverName] = useState("");
+	const [receiverEmail, setReceiverEmail] = useState("");
+	const [comments, setComments] = useState("");
+
+	const handleAddField = (type: FieldType) => {
+		const defaultLabels: Record<FieldType, string> = {
+			text: "Text Field Label",
+			number: "Number Field Label",
+			select: "Select Field Label",
+			textarea: "Textarea Field Label",
+			checkbox: "Checkbox Field Label",
+			radio: "Radio Field Label",
+		};
+
+		setFields([
+			...fields,
+			{
+				id: Date.now(),
+				type,
+				label: defaultLabels[type],
+				placeholder: "",
+				options:
+					type === "select" || type === "radio" ? ["Option 1"] : undefined,
+			},
+		]);
+	};
+
+	const handleAddOption = (fieldId: number) => {
+		setFields(
+			fields.map((f) => {
+				if (f.id === fieldId) {
+					const options = f.options || [];
+					return {
+						...f,
+						options: [...options, `Option ${options.length + 1}`],
+					};
+				}
+				return f;
+			})
+		);
+	};
+
+	const handleOptionChange = (fieldId: number, idx: number, value: string) => {
+		setFields(
+			fields.map((f) => {
+				if (f.id === fieldId && f.options) {
+					const newOptions = [...f.options];
+					newOptions[idx] = value;
+					return { ...f, options: newOptions };
+				}
+				return f;
+			})
+		);
+	};
+
+	const handleDeleteField = (id: number) => {
+		setFields(fields.filter((field) => field.id !== id));
+	};
+
+	const handleLabelChange = (id: number, newLabel: string) => {
+		setFields(fields.map((f) => (f.id === id ? { ...f, label: newLabel } : f)));
+	};
+
+	const handlePlaceholderChange = (id: number, newValue: string) => {
+		setFields(
+			fields.map((f) => (f.id === id ? { ...f, placeholder: newValue } : f))
+		);
+	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const payload = {
+			receiverName,
+			receiverEmail,
+			comments,
+			fields,
+		};
+
+		try {
+			const res = await fetch("/api/interviews", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(payload),
+			});
+
+			if (!res.ok) throw new Error("Failed to create interview");
+
+			const data = await res.json();
+			console.log("Interview created", data);
+
+			setFields([]);
+			setReceiverName("");
+			setReceiverEmail("");
+			setComments("");
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const renderField = (field: Field) => {
+		return (
+			<motion.div
+				key={field.id}
+				initial={{ opacity: 0, y: -10 }}
+				animate={{ opacity: 1, y: 0 }}
+				exit={{ opacity: 0, scale: 0.9 }}
+				transition={{ duration: 0.25, ease: "easeOut" }}
+				className="mb-[2vh] relative bg-slate-50 gap-[1vw] border-slate-300/50 border-[1px] py-[1.25vh] px-[1vw] rounded-[1.5vh] flex"
+			>
+				<div className="w-full">
+					<div
+						contentEditable
+						suppressContentEditableWarning
+						onBlur={(e) =>
+							handleLabelChange(field.id, e.currentTarget.textContent || "")
+						}
+						className="block text-[2vh] mb-[0.5vh] cursor-text capitalize focus:outline-none focus:ring-none focus:border-none"
+					>
+						{field.label}
+					</div>
+
+					{field.type === "text" && (
+						<input
+							type="text"
+							value={field.placeholder}
+							placeholder="Field Placeholder"
+							onChange={(e) =>
+								handlePlaceholderChange(field.id, e.target.value)
+							}
+							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+						/>
+					)}
+					{field.type === "number" && (
+						<input
+							type="number"
+							value={field.placeholder}
+							placeholder="1"
+							onChange={(e) =>
+								handlePlaceholderChange(field.id, e.target.value)
+							}
+							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+						/>
+					)}
+					{field.type === "textarea" && (
+						<textarea
+							value={field.placeholder}
+							onChange={(e) =>
+								handlePlaceholderChange(field.id, e.target.value)
+							}
+							placeholder="Field Placeholder"
+							className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+						/>
+					)}
+					{field.type === "checkbox" && (
+						<input
+							type="checkbox"
+							checked={field.placeholder === "checked"}
+							onChange={(e) =>
+								handlePlaceholderChange(
+									field.id,
+									e.target.checked ? "checked" : ""
+								)
+							}
+						/>
+					)}
+
+					{/* Select field */}
+					{field.type === "select" && (
+						<div className="flex flex-col gap-[0.5vh]">
+							<select
+								value={field.placeholder}
+								onChange={(e) =>
+									handlePlaceholderChange(field.id, e.target.value)
+								}
+								className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+							>
+								{field.options?.map((opt, i) => (
+									<option key={i} value={opt}>
+										{opt}
+									</option>
+								))}
+							</select>
+							{field.options?.map((opt, i) => (
+								<input
+									key={i}
+									value={opt}
+									onChange={(e) =>
+										handleOptionChange(field.id, i, e.target.value)
+									}
+									className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+								/>
+							))}
+							<button
+								type="button"
+								onClick={() => handleAddOption(field.id)}
+								className="text-orange-600 steiner font-extrabold tracking-[1px] mt-[0.5vh]"
+							>
+								+ Add Option
+							</button>
+						</div>
+					)}
+
+					{/* Radio field */}
+					{field.type === "radio" && (
+						<div className="flex flex-col gap-[0.5vh]">
+							{field.options?.map((opt, i) => (
+								<label key={i}>
+									<input type="radio" name={`radio-${field.id}`} value={opt} />{" "}
+									{opt}
+								</label>
+							))}
+							{field.options?.map((opt, i) => (
+								<input
+									key={i + 1000}
+									value={opt}
+									onChange={(e) =>
+										handleOptionChange(field.id, i, e.target.value)
+									}
+									className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+								/>
+							))}
+							<button
+								type="button"
+								onClick={() => handleAddOption(field.id)}
+								className="text-orange-600 steiner font-extrabold tracking-[1px] mt-[0.5vh]"
+							>
+								+ Add Option
+							</button>
+						</div>
+					)}
+				</div>
+
+				<motion.button
+					whileTap={{ scale: 0.9 }}
+					whileHover={{ scale: 1.1 }}
+					type="button"
+					onClick={() => handleDeleteField(field.id)}
+					className="flex items-center justify-center bg-slate-100 border-[1px] border-slate-300 px-[1vw] rounded-[1vh] text-red-500 hover:text-red-700 text-[2vh]"
+				>
+					<LuTrash2 className="text-[2.5vh]" />
+				</motion.button>
+			</motion.div>
+		);
+	};
+
+	return (
+		<div className="w-full py-[3vh] px-[2vw] ">
+			<form
+				onSubmit={handleSubmit}
+				className="bg-green-100/0 py-[1vh] border-r-[1px] border-slate-300 pr-[1.5vw] pb-[3vh] w-full"
+			>
+				<h2 className="text-[3vh] font-light mb-[2vh] pt-[2vh] text-start">
+					Interview Form
+				</h2>
+				{/* Receiver info and comments */}
+				<div className="mb-[2vh]">
+					<label className="block text-[2vh] mb-[0.5vh]">Receiver Name</label>
+					<input
+						type="text"
+						value={receiverName}
+						onChange={(e) => setReceiverName(e.target.value)}
+						placeholder="Receiver Name"
+						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none mb-[2vh]"
+					/>
+				</div>
+				<div className="mb-[2vh]">
+					<label className="block text-[2vh] mb-[0.5vh]">Receiver Email</label>
+					<input
+						type="text"
+						value={receiverEmail}
+						onChange={(e) => setReceiverEmail(e.target.value)}
+						placeholder="Receiver Email"
+						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none mb-[2vh]"
+					/>
+				</div>
+				<div className="mb-[2vh]">
+					<label className="block text-[2vh] mb-[0.5vh]">
+						Additional Comments
+					</label>
+					<textarea
+						value={comments}
+						onChange={(e) => setComments(e.target.value)}
+						placeholder="Additional Comments (Optional)"
+						className="border-slate-300 border-[1px] rounded-[1.5vh] text-[2vh] px-[1vw] py-[1vh] w-full focus:outline-none"
+					/>
+				</div>
+
+				{/* Animated dynamic fields */}
+				<AnimatePresence>
+					{fields.map((field) => renderField(field))}
+				</AnimatePresence>
+
+				<h2 className="text-[2.5vh] font-light mb-[2vh] mt-[3vh] pt-[3vh] border-t-[1px] border-slate-300 text-start flex items-center justify-center gap-[1vw]">
+					Add Input <LuPlus className="text-[2.5vh] inline" />
+				</h2>
+				<div className="grid grid-cols-3 gap-x-[0.5vw] gap-y-[1vh] pr-[0vw]">
+					{[
+						{ type: "text", label: "Text", icon: <LuPenLine /> },
+						{ type: "number", label: "Number", icon: <LuBinary /> },
+						{ type: "select", label: "Select", icon: <LuSquareMousePointer /> },
+						{ type: "textarea", label: "Textarea", icon: <LuLetterText /> },
+						{ type: "checkbox", label: "Checkbox", icon: <LuSquareCheck /> },
+						{ type: "radio", label: "Radio", icon: <LuSquareMousePointer /> },
+					].map((btn) => (
+						<motion.button
+							key={btn.type}
+							whileTap={{ scale: 0.95 }}
+							whileHover={{ scale: 1.0 }}
+							type="button"
+							onClick={() => handleAddField(btn.type as FieldType)}
+							className="bg-slate-100 border-slate-300 border-[1px] py-[1vh] px-[1vw] flex items-center justify-center rounded-[1.75vh] cursor-pointer"
+						>
+							<h2 className="text-[2vh] flex items-center justify-center gap-[0.75vw]">
+								{btn.label} <span className="text-[2.5vh]">{btn.icon}</span>
+							</h2>
+						</motion.button>
+					))}
+				</div>
+
+				<button
+					type="submit"
+					className="bg-orange-100 text-orange-600 border-[1px] border-orange-500 w-full cursor-pointer mt-[3vh] text-[2vh] font-semibold rounded-[2vh] py-[1.25vh]"
+				>
+					Complete
+				</button>
+			</form>
+		</div>
+	);
+};
+
+export default SendInterviewForm;
