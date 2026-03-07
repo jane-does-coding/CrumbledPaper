@@ -1,6 +1,5 @@
 "use client";
 import { useState, useMemo } from "react";
-import { Interview } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 
 type InterviewWithFields = Prisma.InterviewGetPayload<{

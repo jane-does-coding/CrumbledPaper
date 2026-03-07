@@ -141,16 +141,11 @@ const SendInterviewForm = () => {
 				className="my-[1vh] relative bg-green-500/0 gap-[1vw] py-[1.25vh] flex w-[95%] mx-auto"
 			>
 				<div className="w-full">
-					<div
-						contentEditable
-						suppressContentEditableWarning
-						onBlur={(e) =>
-							handleLabelChange(field.id, e.currentTarget.textContent || "")
-						}
-						className="block text-[2.5vh] mb-[0.5vh] cursor-text capitalize focus:outline-none focus:ring-none focus:border-none"
-					>
-						{field.label}
-					</div>
+					<input
+						value={field.label}
+						onChange={(e) => handleLabelChange(field.id, e.target.value)}
+						className="bg-transparent border-none outline-none text-[2.5vh] w-full"
+					/>
 
 					{field.type === "text" && (
 						<input
@@ -276,6 +271,71 @@ const SendInterviewForm = () => {
 		);
 	};
 
+	const renderPreviewField = (field: Field) => {
+		return (
+			<motion.div
+				layout
+				key={field.id}
+				initial={{ opacity: 0, y: -10 }}
+				animate={{ opacity: 1, y: 0 }}
+				exit={{ opacity: 0, y: -10 }}
+				transition={{ duration: 0.25 }}
+				className="flex flex-col mt-[0vh]"
+			>
+				<h3 className="text-[3vh] mb-[1vh]">{field.label}</h3>
+
+				{field.type === "text" && (
+					<input
+						type="text"
+						placeholder={field.placeholder || "Your answer"}
+						className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+					/>
+				)}
+
+				{field.type === "number" && (
+					<input
+						type="number"
+						placeholder={field.placeholder || "0"}
+						className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+					/>
+				)}
+
+				{field.type === "textarea" && (
+					<textarea
+						placeholder={field.placeholder || "Your answer"}
+						className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
+					/>
+				)}
+
+				{field.type === "checkbox" && (
+					<label className="flex items-center gap-[1vw] text-[2.5vh]">
+						<input type="checkbox" />
+						Check this option
+					</label>
+				)}
+
+				{field.type === "select" && (
+					<select className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none">
+						{field.options?.map((opt, i) => (
+							<option key={i}>{opt}</option>
+						))}
+					</select>
+				)}
+
+				{field.type === "radio" && (
+					<div className="flex flex-col gap-[0.5vh]">
+						{field.options?.map((opt, i) => (
+							<label key={i} className="text-[2.5vh] flex gap-[1vw]">
+								<input type="radio" name={`preview-${field.id}`} />
+								{opt}
+							</label>
+						))}
+					</div>
+				)}
+			</motion.div>
+		);
+	};
+
 	return (
 		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
 			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-[2vh] px-[2vw] drop-shadow-md">
@@ -385,28 +445,23 @@ const SendInterviewForm = () => {
 						</button>
 					</form>
 				</div>
-				<div className="w-full mx-auto bg-white border-2 border-dotted py-[3vh] px-[2vw] drop-shadow-md">
+				<div className="w-full mx-auto bg-white border-2 border-dotted py-[3vh] px-[2vw] drop-shadow-md transition-all ease-in-out">
 					<h1 className="text-[3.5vh] leading-[3.5vh] text-center mb-[2vh]">
 						Preview
 					</h1>
-					<p className="text-[3vh]">
-						Dear, {"[RECIEVER NAME]"}, thank you so much for your time at our
-						company, so please fill out this form on your experience and
-						feedback.
+					<p className="text-[3vh] transition-all ease-in-out">
+						Dear, {receiverName ? receiverName : "[RECIEVER NAME]"}, thank you
+						so much for your time at our company, so please fill out this form
+						on your experience and feedback.
 					</p>
 
-					<div className="flex flex-col mt-[3vh]">
-						<div className="flex flex-col">
-							<h3 className="text-[3vh] mb-[1vh]">
-								What could be done better?
-							</h3>
-							<input
-								type="text"
-								placeholder="Additional Comments"
-								className="w-full border-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
-							/>
-						</div>
-					</div>
+					<p className="text-[3vh] mt-[2vh]">{comments ? comments : ""}</p>
+
+					<AnimatePresence>
+						<motion.div layout className="flex flex-col mt-[3vh]">
+							{fields.map((field) => renderPreviewField(field))}
+						</motion.div>
+					</AnimatePresence>
 				</div>
 			</div>
 		</div>
