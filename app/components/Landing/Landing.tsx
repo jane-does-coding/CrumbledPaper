@@ -44,8 +44,6 @@ const Landing = () => {
 						<div className="bg-neutral-400 h-full ml-auto z-5 w-full"></div>
 					</div>
 					<div className="w-1/3 h-full border-r-2 px-[2vw] transition-all ease-in-out duration-300 border-black border-dotted flex flex-col items-center justify-center">
-						{/* 						<h2 className="text-[5vh] font-extralight">Some text</h2>
-						 */}{" "}
 						<p className="text-[5vh] text-neutral-700 mb-[2vh]">
 							Crumbled Paper AI gives you the power to see the other side of the
 							story and know the real reason behind your employee's departure.
@@ -55,18 +53,6 @@ const Landing = () => {
 						</a>
 					</div>
 				</div>
-				{/* Bottom part */}
-				{/* <div className="border-b-2 border-black border-dotted w-full flex items-center justify-center mt-[0vh]">
-					<div className="w-1/3 h-[10vh] border-r-2 hover:w-[50%] transition-all ease-in-out duration-300 border-black border-dotted flex items-center justify-center">
-						<h2 className="text-[4vh] font-extralight">Some text</h2>
-					</div>
-					<div className="w-1/3 h-[10vh] border-r-2 hover:w-[50%] transition-all ease-in-out duration-300 border-black border-dotted flex items-center justify-center">
-						<h2 className="text-[4vh] font-extralight">Some text</h2>
-					</div>
-					<div className="w-1/3 h-[10vh]  flex hover:w-[50%] transition-all ease-in-out duration-300 items-center justify-center">
-						<h2 className="text-[4vh] font-extralight">Some text</h2>
-					</div>
-				</div> */}
 			</div>
 		</div>
 	);

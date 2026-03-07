@@ -68,7 +68,6 @@ export async function DELETE(req: Request) {
 		// Manually cascade
 		await prisma.$transaction([
 			prisma.field.deleteMany({ where: { interviewId } }),
-			//	prisma.notification.deleteMany({ where: { interviewId } }),
 			prisma.interview.delete({ where: { id: interviewId } }),
 		]);
 

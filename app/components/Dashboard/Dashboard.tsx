@@ -15,32 +15,8 @@ const Dashboard = ({ interviews }: DashboardProps) => {
 	const [sortOrder, setSortOrder] = useState("desc");
 
 	if (!interviews) {
-		return <div></div>;
+		return <div>No Interviews</div>;
 	}
-
-	const interviewsDummy = [
-		{
-			id: 1,
-			name: "Bob Smith",
-			questions: 8,
-			date: "2026-08-26",
-			status: "Pending",
-		},
-		{
-			id: 2,
-			name: "Alice Johnson",
-			questions: 6,
-			date: "2026-07-14",
-			status: "Completed",
-		},
-		{
-			id: 3,
-			name: "Mark Lee",
-			questions: 10,
-			date: "2026-09-01",
-			status: "Pending",
-		},
-	];
 
 	const filteredAndSorted = useMemo(() => {
 		let filtered = interviews.filter((interview) =>

@@ -1,10 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
 
 const SendInterview = () => {
-	const [search, setSearch] = useState("");
-	const [sortOrder, setSortOrder] = useState("desc");
-
 	return (
 		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
 			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-[2vh] px-[2vw] drop-shadow-md">

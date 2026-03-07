@@ -1,13 +1,11 @@
-import React from "react";
-
 const Video = () => {
 	return (
 		<div>
-			<div className="w-[100vw] mx-auto min-h-[90vh]">
+			<div className="w-screen mx-auto min-h-[90vh]">
 				<div className="bg-green-300/0 pt-[10vh] pb-[10vh] relative">
 					<img
 						src="paper.png"
-						className="absolute top-0 left-0 z-[0] w-full h-full opacity-40 object-cover"
+						className="absolute top-0 left-0 z-0 w-full h-full opacity-40 object-cover"
 						alt=""
 					/>
 					<h1 className="handone leading-[10vh] text-right text-[10vh] mr-[10vw]">

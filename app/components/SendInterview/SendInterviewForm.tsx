@@ -353,11 +353,6 @@ const SendInterviewForm = () => {
 
 						{/* Default Questions */}
 						<div className="flex flex-col">
-							{/* <input
-								type="text"
-								placeholder="Reciever Name"
-								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
-							/> */}
 							<input
 								type="text"
 								value={receiverName}
@@ -365,11 +360,6 @@ const SendInterviewForm = () => {
 								placeholder="Receiver Name"
 								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
 							/>
-							{/* <input
-								type="text"
-								placeholder="Reciever Email"
-								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
-							/> */}
 							<input
 								type="text"
 								value={receiverEmail}
@@ -377,11 +367,6 @@ const SendInterviewForm = () => {
 								placeholder="Receiver Email"
 								className="w-full border-t-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
 							/>
-							{/* <input
-								type="text"
-								placeholder="Additional Comments"
-								className="w-full border-y-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none"
-							/> */}
 							<textarea
 								value={comments}
 								onChange={(e) => setComments(e.target.value)}
@@ -389,7 +374,7 @@ const SendInterviewForm = () => {
 								className="w-full border-y-2 border-dotted border-black px-[1vw] py-[0.75vh] text-[3vh] outline-none h-[6.5vh]"
 							/>
 						</div>
-						{/* ALL ELSE */}
+						{/* Custom Questions */}
 						<h1 className="text-[3.5vh] leading-[3.5vh] text-center mb-[3vh] mt-[4vh]">
 							Input Fields
 						</h1>
