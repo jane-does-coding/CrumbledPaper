@@ -14,11 +14,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
 	if (!interview) return;
 
 	return (
-		<div className="flex bg-neutral-100">
+		<div className="flex bg-neutral-100 min-h-screen">
 			<img
-				src="paper.png"
+				src="/paper.png"
 				className="absolute top-0 left-0 z-0 w-full h-screen opacity-40"
-				alt=""
+				alt="paper"
 			/>
 			{currentUser ? (
 				<>

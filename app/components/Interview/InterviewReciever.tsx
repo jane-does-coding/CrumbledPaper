@@ -11,19 +11,24 @@ interface InterviewProps {
 }
 
 const InterviewReciever = ({ interview }: InterviewProps) => {
-	const [formData, setFormData] = useState({
-		q1: "",
-		q2: "",
-		q3: "",
-		q4: "",
-		q5: "",
-	});
+	const [formData, setFormData] = useState<Record<string, string>>({});
 
-	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setFormData({
-			...formData,
-			[e.target.name]: e.target.value,
-		});
+	const handleChange = (
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+		>
+	) => {
+		const { name, value, type } = e.target;
+
+		setFormData((prev) => ({
+			...prev,
+			[name]:
+				type === "checkbox"
+					? (e.target as HTMLInputElement).checked
+						? "checked"
+						: ""
+					: value,
+		}));
 	};
 
 	const handleSubmit = (e: React.FormEvent) => {
@@ -44,37 +49,94 @@ const InterviewReciever = ({ interview }: InterviewProps) => {
 				onSubmit={handleSubmit}
 				className="w-[65%] mx-auto bg-white border-2 border-dotted flex flex-col drop-shadow-lg"
 			>
-				{[
-					{ key: "q1", label: "What could we have done better?" },
-					{ key: "q2", label: "What benefits did you value the most?" },
-					{ key: "q3", label: "Would you recommend this company to a friend?" },
-					{ key: "q4", label: "Any final comments or feedback?" },
-					{
-						key: "q5",
-						label:
-							"On a scale of 1-10, how supported did you feel by management?",
-					},
-				].map((question, i, arr) => (
+				{interview?.fields.map((field, i) => (
 					<div
-						key={question.key}
+						key={field.id}
 						className={`py-[3vh] px-[2vw] ${
-							i === arr.length - 1
-								? ""
-								: "border-b-2 border-dotted border-black"
+							i !== interview.fields.length - 1
+								? "border-b-2 border-dotted border-black"
+								: ""
 						}`}
 					>
-						<label className="block text-[3vh] mb-[1.5vh]">
-							{question.label}
-						</label>
+						<label className="block text-[3vh] mb-[1.5vh]">{field.label}</label>
 
-						<textarea
-							name={question.key}
-							value={(formData as any)[question.key]}
-							onChange={handleChange}
-							rows={4}
-							className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.5vh] outline-none resize-none"
-							placeholder="Type your answer here..."
-						/>
+						{field.type === "text" && (
+							<input
+								type="text"
+								name={field.id}
+								value={formData[field.id] || ""}
+								onChange={handleChange}
+								placeholder={field.placeholder}
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.5vh] outline-none"
+							/>
+						)}
+
+						{field.type === "number" && (
+							<input
+								type="number"
+								name={field.id}
+								value={formData[field.id] || ""}
+								onChange={handleChange}
+								placeholder={field.placeholder}
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.5vh] outline-none"
+							/>
+						)}
+
+						{field.type === "textarea" && (
+							<textarea
+								name={field.id}
+								value={formData[field.id] || ""}
+								onChange={handleChange}
+								placeholder={field.placeholder}
+								rows={4}
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.5vh] outline-none resize-none"
+							/>
+						)}
+
+						{field.type === "checkbox" && (
+							<label className="flex items-center gap-[1vw] text-[2.5vh]">
+								<input
+									type="checkbox"
+									name={field.id}
+									checked={formData[field.id] === "checked"}
+									onChange={handleChange}
+								/>
+								{field.placeholder || "Check this option"}
+							</label>
+						)}
+
+						{/* {field.type === "select" && field.options && (
+							<select
+								name={field.id}
+								value={formData[field.id] || ""}
+								onChange={handleChange}
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.5vh] outline-none"
+							>
+								<option value="">Select...</option>
+								{field.options.map((opt, i) => (
+									<option key={i} value={opt}>
+										{opt}
+									</option>
+								))}
+							</select>
+						)}
+
+						{field.type === "radio" && field.options && (
+							<div className="flex flex-col gap-[0.5vh]">
+								{field.options.map((opt, i) => (
+									<label key={i} className="flex gap-[1vw] text-[2.5vh]">
+										<input
+											type="radio"
+											name={field.id}
+											value={opt}
+											checked={formData[field.id] === opt}
+											onChange={handleChange}
+										/>
+										{opt}
+									</label>
+								))}
+							</div>
+						)} */}
 					</div>
 				))}
 
