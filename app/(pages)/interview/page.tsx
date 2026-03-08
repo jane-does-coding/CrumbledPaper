@@ -1,4 +1,4 @@
-import Interview from "@/app/components/Interview/Interview";
+import InterviewReciever from "@/app/components/Interview/InterviewReciever";
 
 const InterviewPage = () => {
 	return (
@@ -9,7 +9,7 @@ const InterviewPage = () => {
 				alt=""
 			/>
 			<div className="z-5 relative">
-				<Interview />
+				<InterviewReciever />
 			</div>
 		</div>
 	);

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import {
 	LuChartLine,
 	LuCircleFadingPlus,
-	LuCitrus,
 	LuLayoutDashboard,
 	LuLogOut,
 	LuMail,

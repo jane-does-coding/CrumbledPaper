@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const Interview = () => {
+const InterviewReciever = () => {
 	const [formData, setFormData] = useState({
 		q1: "",
 		q2: "",
@@ -83,4 +83,4 @@ const Interview = () => {
 	);
 };
 
-export default Interview;
+export default InterviewReciever;

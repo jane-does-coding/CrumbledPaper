@@ -1,9 +1,20 @@
 "use client";
 import React from "react";
+import { Prisma } from "@prisma/client";
 
-const InterviewAdmin = () => {
+type FullInterview = Prisma.InterviewGetPayload<{
+	include: { fields: true };
+}>;
+
+interface InterviewProps {
+	interview?: FullInterview | null;
+}
+
+const InterviewAdmin = ({ interview }: InterviewProps) => {
+	if (!interview) return;
+
 	return (
-		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
+		<div className="flex flex-col w-full items-center justify-center gap-[2vh] py-[2vh] ">
 			{/* Header */}
 			<div className="w-[95%] mx-auto bg-white border-2 border-dotted py-[2vh] px-[2vw] flex items-center justify-between">
 				<h1 className="text-[5.5vh] leading-[5.5vh]">Interview Submission</h1>
@@ -19,8 +30,8 @@ const InterviewAdmin = () => {
 				</div>
 
 				<div className="flex flex-col gap-[1.5vh] py-[2vh] px-[2vw] text-[2.5vh]">
-					<p>Name: Bob Smith</p>
-					<p>Email: bob.smith@example.com</p>
+					<p>Name: {interview?.receiverName}</p>
+					<p>Email: {interview?.receiverEmail}</p>
 				</div>
 			</div>
 
@@ -31,11 +42,22 @@ const InterviewAdmin = () => {
 				</div>
 
 				<div className="flex flex-col gap-[1.5vh] py-[2vh] px-[2vw] text-[2.5vh]">
-					<p>Submitted on: August 26, 2025 at 4:40 PM</p>
+					<p>
+						Created on:{" "}
+						{new Date(interview.createdAt).toLocaleDateString("en-US", {
+							weekday: "long",
+							month: "long",
+							day: "numeric",
+							year: "numeric",
+						})}
+					</p>
 
 					<div className="flex items-center gap-[1vw]">
 						<div className="w-[1.75vw] h-[1.75vw] border-2 border-dotted border-black rounded-full"></div>
-						<p>Status: Not completed yet</p>
+						<p>
+							Status:{" "}
+							{interview?.isCompleted ? "Completed" : "Not completed yet"}
+						</p>
 					</div>
 				</div>
 			</div>
