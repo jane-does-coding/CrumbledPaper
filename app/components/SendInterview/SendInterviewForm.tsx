@@ -258,13 +258,11 @@ const SendInterviewForm = () => {
 				</div>
 
 				<motion.button
-					whileTap={{ scale: 0.9 }}
-					whileHover={{ scale: 1.1 }}
 					type="button"
 					onClick={() => handleDeleteField(field.id)}
-					className="flex items-center justify-center border-2 border-black border-dotted px-[1vw] cursor-pointer text-red-500 hover:text-red-700 text-[2vh]"
+					className="flex items-center justify-center border-2 group border-black border-dotted px-[1vw] cursor-pointer text-red-500 hover:text-red-700 text-[2vh]"
 				>
-					<LuTrash2 className="text-[2.5vh]" />
+					<LuTrash2 className="text-[2.5vh] transition-all ease-in-out group-hover:scale-125" />
 				</motion.button>
 			</motion.div>
 		);

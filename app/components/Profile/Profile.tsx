@@ -1,14 +1,35 @@
 "use client";
-import { User } from "@prisma/client";
+import { User, Prisma } from "@prisma/client";
+
+type InterviewWithFields = Prisma.InterviewGetPayload<{
+	include: { fields: true };
+}>;
 
 interface NavbarProps {
 	currentUser?: User | null;
+	interviews?: InterviewWithFields[] | null;
 }
 
-const Profile = ({ currentUser }: NavbarProps) => {
-	console.log(currentUser);
+const Profile = ({ currentUser, interviews }: NavbarProps) => {
+	if (!currentUser) return null;
 
-	if (!currentUser) return;
+	const totalInterviews = interviews?.length ?? 0;
+
+	const completedReviews = interviews?.filter((i) => i.isCompleted).length ?? 0;
+
+	const joinedDate = new Intl.DateTimeFormat("en-US", {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+	}).format(new Date(currentUser.createdAt));
+
+	const initials =
+		currentUser.name
+			?.split(" ")
+			.map((n) => n[0])
+			.join("")
+			.slice(0, 2)
+			.toUpperCase() ?? "U";
 
 	return (
 		<div className="flex flex-col w-full items-center justify-center gap-[2vh]">
@@ -22,7 +43,7 @@ const Profile = ({ currentUser }: NavbarProps) => {
 				<div className="w-full flex border-b-2 border-dotted border-black">
 					<div className="w-1/3 py-[3vh] px-[2vw] border-r-2 border-dotted border-black flex items-center justify-center">
 						<div className="w-[10vw] h-[10vw] border-2 border-dotted border-black rounded-full flex items-center justify-center text-[3vh]">
-							JS
+							{initials}
 						</div>
 					</div>
 
@@ -37,22 +58,22 @@ const Profile = ({ currentUser }: NavbarProps) => {
 				<div className="w-full flex flex-col">
 					<div className="flex justify-between py-[2vh] px-[2vw] border-b-2 border-dotted border-black">
 						<p className="text-[2.5vh]">Department</p>
-						<p className="text-[2.5vh]">Human Resources</p>
+						<p className="text-[2.5vh]">{"—"}</p>
 					</div>
 
 					<div className="flex justify-between py-[2vh] px-[2vw] border-b-2 border-dotted border-black">
 						<p className="text-[2.5vh]">Joined</p>
-						<p className="text-[2.5vh]">March 12, 2024</p>
+						<p className="text-[2.5vh]">{joinedDate}</p>
 					</div>
 
 					<div className="flex justify-between py-[2vh] px-[2vw] border-b-2 border-dotted border-black">
 						<p className="text-[2.5vh]">Total Interviews Created</p>
-						<p className="text-[2.5vh]">42</p>
+						<p className="text-[2.5vh]">{totalInterviews}</p>
 					</div>
 
 					<div className="flex justify-between py-[2vh] px-[2vw]">
-						<p className="text-[2.5vh]">Completed Reviews</p>
-						<p className="text-[2.5vh]">37</p>
+						<p className="text-[2.5vh]">Completed Interviews</p>
+						<p className="text-[2.5vh]">{completedReviews}</p>
 					</div>
 				</div>
 			</div>
