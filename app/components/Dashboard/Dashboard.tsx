@@ -63,7 +63,7 @@ const Dashboard = ({ interviews }: DashboardProps) => {
 			<div className="w-[95%] mx-auto bg-white border-2 border-dotted drop-shadow-md">
 				{filteredAndSorted.map((item, i) => (
 					<a
-						href="/interview-admin"
+						href={`/interview/${item.id}`}
 						key={item.id}
 						className={`w-full flex py-[1.25vh] px-[2vw] items-center justify-between border-dotted border-black ${
 							i === filteredAndSorted.length - 1

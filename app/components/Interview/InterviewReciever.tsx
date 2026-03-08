@@ -1,7 +1,16 @@
 "use client";
 import React, { useState } from "react";
+import { Prisma } from "@prisma/client";
 
-const InterviewReciever = () => {
+type FullInterview = Prisma.InterviewGetPayload<{
+	include: { fields: true };
+}>;
+
+interface InterviewProps {
+	interview?: FullInterview | null;
+}
+
+const InterviewReciever = ({ interview }: InterviewProps) => {
 	const [formData, setFormData] = useState({
 		q1: "",
 		q2: "",

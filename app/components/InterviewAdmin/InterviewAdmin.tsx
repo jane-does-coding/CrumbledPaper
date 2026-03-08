@@ -69,23 +69,21 @@ const InterviewAdmin = ({ interview }: InterviewProps) => {
 				</div>
 
 				{/* Question Block */}
-				{[
-					"What could we have done better?",
-					"What benefits did you value the most?",
-					"Would you recommend this company to a friend?",
-					"Any final comments or feedback?",
-					"On a scale of 1-10, how supported did you feel by management?",
-				].map((question, i, arr) => (
+				{/* Question Block */}
+				{interview.fields.map((field, i, arr) => (
 					<div
-						key={i}
+						key={field.id}
 						className={`py-[2vh] px-[2vw] ${
 							i === arr.length - 1
 								? ""
 								: "border-b-2 border-dotted border-black"
 						}`}
 					>
-						<h3 className="text-[3vh] mb-[1vh]">{question}</h3>
-						<p className="text-[2.5vh] opacity-60">No answer</p>
+						<h3 className="text-[3vh] mb-[1vh]">{field.label}</h3>
+
+						<p className="text-[2.5vh] opacity-60">
+							{field.receiverInput ?? "No answer"}
+						</p>
 					</div>
 				))}
 			</div>
