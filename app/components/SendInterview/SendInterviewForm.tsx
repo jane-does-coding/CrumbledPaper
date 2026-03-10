@@ -389,22 +389,22 @@ const SendInterviewForm = () => {
 							{[
 								{ type: "text", label: "Text", icon: <LuPenLine /> },
 								{ type: "number", label: "Number", icon: <LuBinary /> },
-								{
+								/* {
 									type: "select",
 									label: "Select",
 									icon: <LuSquareMousePointer />,
-								},
+								}, */
 								{ type: "textarea", label: "Textarea", icon: <LuLetterText /> },
-								{
+								/* {
 									type: "checkbox",
 									label: "Checkbox",
 									icon: <LuSquareCheck />,
-								},
-								{
+								}, */
+								/* {
 									type: "radio",
 									label: "Radio",
 									icon: <LuSquareMousePointer />,
-								},
+								}, */
 							].map((btn) => (
 								<motion.button
 									key={btn.type}
