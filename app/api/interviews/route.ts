@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
 	try {
@@ -28,6 +31,20 @@ export async function POST(req: Request) {
 				},
 			},
 			include: { fields: true },
+		});
+
+		const interviewLink = `${process.env.NEXT_PUBLIC_APP_URL}/interview/${interview.id}`;
+
+		await resend.emails.send({
+			from: "HR <onboarding@resend.dev>",
+			to: receiverEmail,
+			subject: "Exit Interview Form",
+			html: `
+		<h2>Hello ${receiverName},</h2>
+		<p>Thank you for your time at our company.</p>
+		<p>Please fill out the exit interview form below:</p>
+		<a href="${interviewLink}">${interviewLink}</a>
+	`,
 		});
 
 		return NextResponse.json(interview);
@@ -65,7 +82,6 @@ export async function DELETE(req: Request) {
 			return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 		}
 
-		// Manually cascade
 		await prisma.$transaction([
 			prisma.field.deleteMany({ where: { interviewId } }),
 			prisma.interview.delete({ where: { id: interviewId } }),
