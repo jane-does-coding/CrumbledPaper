@@ -6,8 +6,6 @@ import {
 	LuLetterText,
 	LuPenLine,
 	LuPlus,
-	LuSquareCheck,
-	LuSquareMousePointer,
 	LuTrash2,
 } from "react-icons/lu";
 
@@ -101,6 +99,30 @@ const SendInterviewForm = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
+		/* Making sure the fiedls aren't empty */
+
+		if (!receiverName.trim()) {
+			alert("Receiver name is required.");
+			return;
+		}
+
+		if (!receiverEmail.trim()) {
+			alert("Receiver email is required.");
+			return;
+		}
+
+		if (fields.length === 0) {
+			alert("Add at least one input field.");
+			return;
+		}
+
+		for (const field of fields) {
+			if (!field.label.trim()) {
+				alert("All fields must have a label.");
+				return;
+			}
+		}
+
 		const payload = {
 			receiverName,
 			receiverEmail,
@@ -141,6 +163,7 @@ const SendInterviewForm = () => {
 			>
 				<div className="w-full">
 					<input
+						required
 						value={field.label}
 						onChange={(e) => handleLabelChange(field.id, e.target.value)}
 						className="bg-transparent border-none outline-none text-[2.5vh] w-full"
@@ -149,6 +172,7 @@ const SendInterviewForm = () => {
 					{field.type === "text" && (
 						<input
 							type="text"
+							required
 							value={field.placeholder}
 							placeholder="Field Placeholder"
 							onChange={(e) =>
@@ -160,6 +184,7 @@ const SendInterviewForm = () => {
 					{field.type === "number" && (
 						<input
 							type="number"
+							required
 							value={field.placeholder}
 							placeholder="1"
 							onChange={(e) =>
@@ -421,7 +446,8 @@ const SendInterviewForm = () => {
 
 						<button
 							type="submit"
-							className="hover:bg-white bg-neutral-900 transition-all ease-in-out duration-300 hover:text-black text-white border-2 border-dotted hover:border-black border-neutral-300 w-[95%] mx-[2.5%] cursor-pointer mt-[3vh] text-[2.75vh] font-extralight py-[1.25vh]"
+							disabled={!receiverName || !receiverEmail || fields.length === 0}
+							className="hover:bg-white bg-neutral-900 transition-all ease-in-out duration-300 hover:text-black text-white border-2 border-dotted hover:border-black border-neutral-300 w-[95%] mx-[2.5%] cursor-pointer mt-[3vh] text-[2.75vh] font-extralight py-[1.25vh] disabled:opacity-50 disabled:cursor-not-allowed"
 						>
 							Complete
 						</button>
