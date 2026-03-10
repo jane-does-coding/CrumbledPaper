@@ -50,7 +50,7 @@ const Sidebar = ({ currentUser }: NavbarProps) => {
 		<div
 			className={`flex flex-col justify-between ${
 				pinned ? "w-[19vw]" : "w-[6vw] hover:w-[19vw]"
-			} border-r-2 border-neutral-900 border-dotted transition-all duration-400 h-screen overflow-hidden bg-white px-[1vw] py-[3vh] sticky drop-shadow-lg`}
+			} border-r-2 border-neutral-900 border-dotted transition-all duration-400 h-screen overflow-hidden bg-white px-[1vw] py-[3vh] sticky drop-shadow-lg z-99`}
 		>
 			<button
 				onClick={() => setPinned(!pinned)}
@@ -96,7 +96,7 @@ const Sidebar = ({ currentUser }: NavbarProps) => {
 					</div>
 				</Link>
 
-				<Link
+				{/* <Link
 					href={"/analytics"}
 					className={`w-[4vw] flex items-center justify-center relative aspect-[1] rounded-none border-dotted ${
 						isActive("/analytics") ? activeIconClasses : inactiveIconClasses
@@ -110,7 +110,7 @@ const Sidebar = ({ currentUser }: NavbarProps) => {
 					<div className="absolute w-[15vw] text-[2.25vh] right-[-16.5vw] flex items-center justify-start top-[50%] font-medium hover:pl-[0.25vw] hover:font-medium ease-in-out py-[1vh] transition-all translate-y-[-50%]">
 						Analytics
 					</div>
-				</Link>
+				</Link> */}
 
 				<Link
 					href={"/notifications"}
