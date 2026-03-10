@@ -27,7 +27,7 @@ const Landing = () => {
 					A worker isn't just a crumbled and tossed away paper....
 				</h1>
 				{/* Top part */}
-				<div className="border-y-2 border-black border-dotted w-full flex items-center justify-center mt-[3vh] bg-neutral-100">
+				<div className="border-y-2 border-black border-dotted w-full flex items-center justify-center mt-[3vh] bg-white">
 					<div className="w-1/3 h-[10vh] border-r-2 hover:w-[50%] transition-all ease-in-out duration-400 border-black border-dotted flex items-center justify-center">
 						<h2 className="text-[4vh] font-extralight">Hired with Hope</h2>
 					</div>
@@ -41,7 +41,11 @@ const Landing = () => {
 				{/* Middle Section */}
 				<div className="border-b-2 border-black border-dotted w-full flex items-center justify-center mt-0 h-[60vh]">
 					<div className="w-2/3 h-full border-r-2 transition-all ease-in-out duration-300 border-black border-dotted flex items-center justify-center relative">
-						<div className="bg-neutral-400 h-full ml-auto z-5 w-full"></div>
+						<img
+							src="/imgs/dashboard.png"
+							className="w-full h-full object-cover"
+							alt=""
+						/>
 					</div>
 					<div className="w-1/3 h-full border-r-2 px-[2vw] transition-all ease-in-out duration-300 border-black border-dotted flex flex-col items-center justify-center">
 						<p className="text-[5vh] text-neutral-700 mb-[2vh]">

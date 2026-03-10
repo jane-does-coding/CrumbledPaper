@@ -1,23 +1,62 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import checkPassword from "@/app/actions/checkPassword";
 
 const RegisterPage = () => {
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const router = useRouter();
+
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setIsLoading(true);
 
-		const payload = {
-			name,
-			username,
-			email,
-			password,
-		};
+		try {
+			const isValidPassword = await checkPassword(password);
 
-		console.log(payload);
+			if (isValidPassword.error) {
+				toast.error(isValidPassword.error);
+				setIsLoading(false);
+				return;
+			}
+
+			await axios.post("/api/register", {
+				name,
+				username,
+				email,
+				password,
+			});
+
+			const callback = await signIn("credentials", {
+				email,
+				password,
+				redirect: false,
+			});
+
+			setIsLoading(false);
+
+			if (callback?.ok) {
+				toast.success("Account created");
+				router.push("/");
+				router.refresh();
+			}
+
+			if (callback?.error) {
+				toast.error(callback.error);
+			}
+		} catch (err) {
+			console.error(err);
+			toast.error("Something went wrong");
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -47,6 +86,7 @@ const RegisterPage = () => {
 								value={name}
 								onChange={(e) => setName(e.target.value)}
 								required
+								disabled={isLoading}
 								className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 								placeholder="Jane Smith"
 							/>
@@ -59,6 +99,7 @@ const RegisterPage = () => {
 								value={username}
 								onChange={(e) => setUsername(e.target.value)}
 								required
+								disabled={isLoading}
 								className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 								placeholder="janesmith"
 							/>
@@ -72,6 +113,7 @@ const RegisterPage = () => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
+							disabled={isLoading}
 							className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 							placeholder="jane@example.com"
 						/>
@@ -84,6 +126,7 @@ const RegisterPage = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
+							disabled={isLoading}
 							className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 							placeholder="••••••••"
 						/>
@@ -91,6 +134,7 @@ const RegisterPage = () => {
 
 					<button
 						type="submit"
+						disabled={isLoading}
 						className="hover:bg-white bg-neutral-900 transition-all ease-in-out duration-300 hover:text-black text-white border-2 border-dotted hover:border-black border-neutral-300 w-[95%] mx-[2.5%] cursor-pointer mt-[1vh] text-[2.75vh] font-extralight py-[1.25vh] disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						Create Account

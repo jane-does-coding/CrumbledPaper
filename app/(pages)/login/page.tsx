@@ -1,19 +1,37 @@
 "use client";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const router = useRouter();
+
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const payload = {
+		setIsLoading(true);
+
+		const callback = await signIn("credentials", {
 			email,
 			password,
-		};
+			redirect: false,
+		});
 
-		console.log(payload);
+		setIsLoading(false);
+
+		if (callback?.ok) {
+			toast.success("Logged in");
+			router.refresh();
+		}
+
+		if (callback?.error) {
+			toast.error(callback.error);
+		}
 	};
 
 	return (
@@ -22,7 +40,8 @@ const LoginPage = () => {
 				src="paper.png"
 				className="absolute top-0 left-0 z-0 w-full h-screen opacity-40"
 				alt=""
-			/>{" "}
+			/>
+
 			<div className="w-[32vw] bg-white border-2 border-dotted border-black drop-shadow-md flex flex-col">
 				<div className="border-b-2 border-dotted border-black py-[2.5vh] px-[2vw]">
 					<h1 className="text-[5vh] leading-[5vh] text-center font-bold">
@@ -41,6 +60,7 @@ const LoginPage = () => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
+							disabled={isLoading}
 							className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 							placeholder="jane@example.com"
 						/>
@@ -53,6 +73,7 @@ const LoginPage = () => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
+							disabled={isLoading}
 							className="border-2 border-dotted border-black px-[1vw] py-[1vh] text-[2.75vh] outline-none"
 							placeholder="••••••••"
 						/>
@@ -60,6 +81,7 @@ const LoginPage = () => {
 
 					<button
 						type="submit"
+						disabled={isLoading}
 						className="hover:bg-white bg-neutral-900 transition-all ease-in-out duration-300 hover:text-black text-white border-2 border-dotted hover:border-black border-neutral-300 w-[95%] mx-[2.5%] cursor-pointer mt-[1vh] text-[2.75vh] font-extralight py-[1.25vh] disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						Sign In
