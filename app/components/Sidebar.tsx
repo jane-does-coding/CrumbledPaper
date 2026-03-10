@@ -50,7 +50,7 @@ const Sidebar = ({ currentUser }: NavbarProps) => {
 		<div
 			className={`flex flex-col justify-between ${
 				pinned ? "w-[19vw]" : "w-[6vw] hover:w-[19vw]"
-			} border-r-2 border-neutral-900 border-dotted transition-all duration-400 h-screen overflow-hidden bg-white px-[1vw] py-[3vh] sticky drop-shadow-lg z-99`}
+			} border-r-2 border-neutral-900 border-dotted transition-all duration-400 h-screen overflow-hidden bg-white px-[1vw] py-[3vh] sticky drop-shadow-lg z-50`}
 		>
 			<button
 				onClick={() => setPinned(!pinned)}

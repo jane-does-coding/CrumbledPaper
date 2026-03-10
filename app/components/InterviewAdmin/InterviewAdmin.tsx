@@ -22,7 +22,7 @@ const InterviewAdmin = ({ interview }: InterviewProps) => {
 		try {
 			setLoading(true);
 
-			const res = await fetch(`/api/interview?id=${interview.id}`, {
+			const res = await fetch(`/api/interviews?id=${interview.id}`, {
 				method: "DELETE",
 			});
 
@@ -31,7 +31,7 @@ const InterviewAdmin = ({ interview }: InterviewProps) => {
 			}
 
 			router.refresh();
-			router.push("/dashboard"); // redirect wherever your list page is
+			router.push("/dashboard");
 		} catch (error) {
 			console.error(error);
 		} finally {

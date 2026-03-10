@@ -48,7 +48,7 @@ const Landing = () => {
 							Crumbled Paper AI gives you the power to see the other side of the
 							story and know the real reason behind your employee's departure.
 						</p>
-						<a href="/dashboard">
+						<a href="/login">
 							<Button text="Join Early Access" />
 						</a>
 					</div>
