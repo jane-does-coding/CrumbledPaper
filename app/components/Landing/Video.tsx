@@ -26,7 +26,9 @@ const Video = () => {
 					</p>
 				</div>
 				<div className="w-full border-y-2 border-black border-dotted">
-					<div className="bg-neutral-400 aspect-5/3 w-[50vw] mx-auto"></div>
+					<div className="border-x-2 border-black border-dotted aspect-5/3 w-[50vw] mx-auto">
+						<img src="/imgs/example.png" alt="" />
+					</div>
 				</div>
 				<div className="border-b-2 border-dotted border-black flex">
 					<div className="w-1/3 h-[25vh] border-r-2 hover:w-[50%] transition-all ease-in-out duration-300 border-black border-dotted flex items-center justify-center">
