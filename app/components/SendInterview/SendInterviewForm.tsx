@@ -30,6 +30,7 @@ const SendInterviewForm = () => {
 	const [receiverName, setReceiverName] = useState("");
 	const [receiverEmail, setReceiverEmail] = useState("");
 	const [comments, setComments] = useState("");
+	const [interviewLink, setInterviewLink] = useState<string | null>(null);
 
 	const handleAddField = (type: FieldType) => {
 		const defaultLabels: Record<FieldType, string> = {
@@ -140,7 +141,9 @@ const SendInterviewForm = () => {
 			if (!res.ok) throw new Error("Failed to create interview");
 
 			const data = await res.json();
-			console.log("Interview created", data);
+
+			const link = `${process.env.NEXT_PUBLIC_APP_URL}/interview/${data.id}`;
+			setInterviewLink(link);
 
 			setFields([]);
 			setReceiverName("");
@@ -472,6 +475,49 @@ const SendInterviewForm = () => {
 					</AnimatePresence>
 				</div>
 			</div>
+			<AnimatePresence>
+				{interviewLink && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						className="fixed inset-0 bg-black/40 flex items-center justify-center z-99"
+					>
+						<motion.div
+							initial={{ scale: 0.9 }}
+							animate={{ scale: 1 }}
+							exit={{ scale: 0.9 }}
+							className="bg-white border-2 border-dotted border-black p-[3vh] w-[40vw] text-center"
+						>
+							<h2 className="text-[4vh] mb-[2vh]">Interview Created</h2>
+
+							<p className="text-[3vh] mb-[2vh]">
+								Please send this link manually to the receiver.
+							</p>
+
+							<input
+								readOnly
+								value={interviewLink}
+								className="w-full border-2 border-dotted border-black px-[1vw] py-[1vh] text-[3vh]"
+							/>
+
+							<button
+								onClick={() => navigator.clipboard.writeText(interviewLink)}
+								className="mt-[2vh] border-2 border-dotted border-black px-[2vw] py-[1vh]"
+							>
+								Copy Link
+							</button>
+
+							<button
+								onClick={() => setInterviewLink(null)}
+								className="block mt-[2vh] underline"
+							>
+								Close
+							</button>
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };
