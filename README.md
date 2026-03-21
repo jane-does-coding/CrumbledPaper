@@ -1,5 +1,9 @@
 # Crumbled Paper
 
+<img width="1710" height="949" alt="Screenshot 2026-03-21 at 1 35 50 PM" src="https://github.com/user-attachments/assets/16e96765-d80a-4687-acd2-70b981d3295e" />
+
+
+
 Worker isn't just a name on a crumbled and thrown away piece of paper. A great worker left and you don't know why? We help you find answers.
 
 Video Demo: https://youtu.be/B_09e46-yaI
